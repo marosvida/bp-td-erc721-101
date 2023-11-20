@@ -23,7 +23,7 @@ Your objective is to gather as many TD-ERC721-101 points as possible. Please not
 - Install the required packages `npm i`
 - Register for an infura API key 
 - Register for an etherscan API key 
-- Create a `.env` file that contains a mnemonic phrase for deployment, an infura API key and an Etherscan API key. 
+- Create a `.env` file that contains a private key for deployment, an infura API key and an Etherscan API key. 
 - Test that you are able to connect to the Sepolia network with `npx hardhat console --network sepolia`
 - To deploy a contract, configure a script in the [scripts folder](scripts). Look at the way the TD is deployed and try to iterate
 - Test your deployment locallly with `npx hardhat run scripts/your-script.js`
