@@ -76,7 +76,7 @@ Extra points if you find bugs / corrections this TD can benefit from, and submit
 - Publish the code of the Evaluator on Etherscan using the "Verify and publish" functionnality 
 
 ## TD addresses
-- ERC20TD [`0x082452B4259d6d1696e15E9ca1D3ace9bd8252E7`](https://sepolia.etherscan.io/address/0x082452B4259d6d1696e15E9ca1D3ace9bd8252E7)
-- Evaluator [`0xca2601Fcf4276CcDC64Fd53fCE882298f1EF8b64`](https://sepolia.etherscan.io/address/0xca2601Fcf4276CcDC64Fd53fCE882298f1EF8b64)
-- Evaluator2 [`0x8d366EC7e67C3cEB97c64217780e5C2052560B2B`](https://sepolia.etherscan.io/address/0x8d366EC7e67C3cEB97c64217780e5C2052560B2B)
+- ERC20TD [`0xB6aeC34A759bAE9a58Ea882d560E4cf5cf8731Ed`](https://sepolia.etherscan.io/address/0xB6aeC34A759bAE9a58Ea882d560E4cf5cf8731Ed)
+- Evaluator [`0x43981d9b7f031500f618727B68e554930eE99BB8`](https://sepolia.etherscan.io/address/0x43981d9b7f031500f618727B68e554930eE99BB8)
+- Evaluator2 [`0x1bD670cc635a517eDF48a0FD3019286A5FFCf5D1`](https://sepolia.etherscan.io/address/0x1bD670cc635a517eDF48a0FD3019286A5FFCf5D1)
 
