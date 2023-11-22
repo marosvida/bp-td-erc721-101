@@ -41,8 +41,8 @@ contract MyExercise is ERC721, IExerciceSolution {
 	function declareAnimal(uint sex, uint legs, bool wings, string calldata name) external returns (uint256) {
         animals.push(Animal(sex, legs, wings, name));
         uint id = animals.length - 1;
-        animalToOwner[id] = ev_addr;
-        _mint(ev_addr, id);
+        animalToOwner[id] = msg.sender;
+        _mint(msg.sender, id);
         return id;
     }
 
@@ -52,6 +52,16 @@ contract MyExercise is ERC721, IExerciceSolution {
     }
 
 	function declareDeadAnimal(uint animalNumber) external {
+        require(animalToOwner[animalNumber] == msg.sender, "You are not the owner of this animal");
+        
+        Animal memory animal = animals[animalNumber];
+        animal.name = "";
+        animal.wings = false;
+        animal.legs = 0;
+        animal.sex  = 0;
+
+        delete animalToOwner[animalNumber];
+
         return;
     }
 
