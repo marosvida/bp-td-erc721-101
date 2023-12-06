@@ -14,7 +14,9 @@ contract MyExercise is ERC721, IExerciceSolution {
         string name;
     }
 
-    Animal[] public animals;
+    uint256 public animalCount = 1;
+    mapping (uint => Animal) public idToAnimal;
+
     mapping (uint => address) public animalToOwner;
     mapping (address => bool) public registeredBreeders;
 
@@ -39,26 +41,25 @@ contract MyExercise is ERC721, IExerciceSolution {
     //declareAnimal(0, 4, false, "0rQJPfS_rTY052S");
 
 	function declareAnimal(uint sex, uint legs, bool wings, string calldata name) external returns (uint256) {
-        animals.push(Animal(sex, legs, wings, name));
-        uint id = animals.length - 1;
-        animalToOwner[id] = msg.sender;
-        _mint(msg.sender, id);
-        return id;
+        uint256 animalId = ++animalCount;
+        idToAnimal[animalId] = Animal(sex, legs, wings, name);
+        animalToOwner[animalId] = msg.sender;
+        _mint(msg.sender, animalId);
+        return animalId;
     }
 
 	function getAnimalCharacteristics(uint animalNumber) external returns (string memory _name, bool _wings, uint _legs, uint _sex) {
-        Animal memory animal = animals[animalNumber];
+        Animal memory animal = idToAnimal[animalNumber];
         return (animal.name, animal.wings, animal.legs, animal.sex);
     }
 
 	function declareDeadAnimal(uint animalNumber) external {
         require(animalToOwner[animalNumber] == msg.sender, "You are not the owner of this animal");
         
-        Animal memory animal = animals[animalNumber];
-        animal.name = "";
-        animal.wings = false;
-        animal.legs = 0;
-        animal.sex  = 0;
+        idToAnimal[animalNumber].name = "";
+        idToAnimal[animalNumber].wings = false;
+        idToAnimal[animalNumber].legs = 0;
+        idToAnimal[animalNumber].sex  = 0;
 
         delete animalToOwner[animalNumber];
 
