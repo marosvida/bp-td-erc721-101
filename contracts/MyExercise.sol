@@ -6,6 +6,7 @@ import "./IExerciceSolution.sol";
 contract MyExercise is ERC721, IExerciceSolution {
 
     address ev_addr = 0x43981d9b7f031500f618727B68e554930eE99BB8;
+    address my_wallet = 0x968eE09B5E2EE489be9a8896a29A9DF44f6D1823;
 
     struct Animal {
         uint sex;
@@ -14,7 +15,7 @@ contract MyExercise is ERC721, IExerciceSolution {
         string name;
     }
 
-    uint256 public animalCount = 1;
+    uint256 public animalCount = 0;
     mapping (uint => Animal) public idToAnimal;
 
     mapping (uint => address) public animalToOwner;
@@ -25,12 +26,16 @@ contract MyExercise is ERC721, IExerciceSolution {
     mapping (uint => uint) public animalToPrice;
 
     constructor() ERC721("MyExercise", "ME") {
+        // register the evaluator as a breeder
         registeredBreeders[ev_addr] = true;
-        idToAnimal[0] = Animal(0, 4, false, "0rQJPfS_rTY052S");
-        _mint(address(this), 0);
-        animalToOwner[0] = address(this);
-        animalToSale[0] = true;
-        animalToPrice[0] = 10000000;
+
+        // create an animal
+        uint256 animalId = ++animalCount;
+        idToAnimal[animalId] = Animal(0, 4, false, "0rQJPfS_rTY052S");
+        _mint(my_wallet, animalId);
+        animalToOwner[animalId] = my_wallet;
+        animalToSale[animalId] = true;
+        animalToPrice[animalId] = 10000000;
     }
 
     // Breeding function
@@ -72,11 +77,29 @@ contract MyExercise is ERC721, IExerciceSolution {
 
         delete animalToOwner[animalNumber];
 
+        _burn(animalNumber);
         return;
     }
 
 	function tokenOfOwnerByIndex(address owner, uint256 index) external view returns (uint256) {
-        return 1;
+        uint id = 0;
+        if (index == 0) {
+            while (animalToOwner[id] != owner) {
+                id++;
+            }
+            return id;
+        } else {
+            while (index > 0) {
+                id++;
+                if (animalToOwner[id] == owner) {
+                    index--;
+                }
+            }
+            while (animalToOwner[id] != owner) {
+                id++;
+            }
+            return id;
+        }
     }
 
 	// Selling functions
