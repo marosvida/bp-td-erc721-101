@@ -20,8 +20,17 @@ contract MyExercise is ERC721, IExerciceSolution {
     mapping (uint => address) public animalToOwner;
     mapping (address => bool) public registeredBreeders;
 
+    // sales
+    mapping (uint => bool) public animalToSale;
+    mapping (uint => uint) public animalToPrice;
+
     constructor() ERC721("MyExercise", "ME") {
-        _mint(ev_addr, 1);
+        registeredBreeders[ev_addr] = true;
+        idToAnimal[0] = Animal(0, 4, false, "0rQJPfS_rTY052S");
+        _mint(address(this), 0);
+        animalToOwner[0] = address(this);
+        animalToSale[0] = true;
+        animalToPrice[0] = 10000000;
     }
 
     // Breeding function
@@ -67,24 +76,34 @@ contract MyExercise is ERC721, IExerciceSolution {
     }
 
 	function tokenOfOwnerByIndex(address owner, uint256 index) external view returns (uint256) {
-        return 0;
+        return 1;
     }
 
 	// Selling functions
 	function isAnimalForSale(uint animalNumber) external view returns (bool) {
-        return false;
+        return animalToSale[animalNumber];
     }
 
 	function animalPrice(uint animalNumber) external view returns (uint256) {
-        return 0;
+        return animalToPrice[animalNumber];
     }
 
 	function buyAnimal(uint animalNumber) external payable {
-        return;
+        require(animalToSale[animalNumber], "This animal is not for sale");
+        require(msg.value >= animalToPrice[animalNumber], "You don't have enough money to buy this animal");
+
+        _transfer(animalToOwner[animalNumber], msg.sender, animalNumber);
+
+        delete animalToSale[animalNumber];
+        delete animalToPrice[animalNumber];
     }
 
 	function offerForSale(uint animalNumber, uint price) external {
-        return;
+        require(animalToOwner[animalNumber] == msg.sender, "You are not the owner of this animal");
+        require(price > 0, "Price must be greater than 0");
+
+        animalToSale[animalNumber] = true;
+        animalToPrice[animalNumber] = price;
     }
 
 	// Reproduction functions
